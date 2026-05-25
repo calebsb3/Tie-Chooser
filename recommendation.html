@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tie Chooser - Recommendation</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>Tie Chooser</h1>
+        <p>Choose what to wear next and keep your rotation fair.</p>
+      </header>
+
+      <nav class="page-nav" aria-label="Pages">
+        <a class="page-link" href="./index.html">Collection</a>
+        <a class="page-link active" href="./recommendation.html" aria-current="page">Recommendation</a>
+      </nav>
+
+      <section class="panel">
+        <h2>Recommendation</h2>
+        <div id="recommendation-card" class="recommendation-card empty">
+          <p>Click "Recommend a Tie" to get today's pick.</p>
+        </div>
+        <div class="actions">
+          <button id="recommend-button" type="button">Recommend a Tie</button>
+          <button id="wear-button" type="button" disabled>Wear This Tie</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Wear History</h2>
+        <ul id="history-list" class="history-list"></ul>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

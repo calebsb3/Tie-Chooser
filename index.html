@@ -10,34 +10,20 @@
     <main class="app">
       <header class="app-header">
         <h1>Tie Chooser</h1>
-        <p>Rotate through your ties without repeats.</p>
+        <p>Build your collection, then get a daily tie pick without repeats.</p>
       </header>
+
+      <nav class="page-nav" aria-label="Pages">
+        <a class="page-link active" href="./index.html" aria-current="page">Collection</a>
+        <a class="page-link" href="./recommendation.html">Recommendation</a>
+      </nav>
 
       <section class="panel upload-panel">
         <h2>Your Collection</h2>
         <label class="file-label" for="tie-upload">Upload tie photos</label>
         <input id="tie-upload" type="file" accept="image/*" multiple />
         <p id="collection-count" class="muted"></p>
-      </section>
-
-      <nav class="tabs" aria-label="Screens">
-        <button id="show-recommendation" class="tab active" type="button">Recommendation</button>
-        <button id="show-history" class="tab" type="button">History</button>
-      </nav>
-
-      <section id="recommendation-screen" class="panel">
-        <div id="recommendation-card" class="recommendation-card empty">
-          <p>Add tie photos to start getting recommendations.</p>
-        </div>
-        <div class="actions">
-          <button id="recommend-button" type="button">Recommend a Tie</button>
-          <button id="wear-button" type="button" disabled>Wear This Tie</button>
-        </div>
-      </section>
-
-      <section id="history-screen" class="panel hidden">
-        <h2>Wear History</h2>
-        <ul id="history-list" class="history-list"></ul>
+        <p class="muted">When you are ready, switch to Recommendation to pick your next tie.</p>
       </section>
     </main>
 

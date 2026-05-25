@@ -16,6 +16,28 @@ body {
   gap: 1rem;
 }
 
+.page-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.page-link {
+  border: 1px solid #c5d1ec;
+  background: #fff;
+  color: #1e2a44;
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.page-link.active {
+  background: #1f5fff;
+  color: #fff;
+  border-color: #1f5fff;
+}
+
 .app-header h1 {
   margin: 0;
 }
@@ -46,12 +68,6 @@ body {
   color: #5a6377;
 }
 
-.tabs {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.tab,
 .actions button {
   border: 1px solid #c5d1ec;
   background: #fff;
@@ -60,12 +76,6 @@ body {
   padding: 0.55rem 0.8rem;
   cursor: pointer;
   font-size: 0.95rem;
-}
-
-.tab.active {
-  background: #1f5fff;
-  color: #fff;
-  border-color: #1f5fff;
 }
 
 .recommendation-card {
@@ -123,6 +133,3 @@ button:disabled {
   display: block;
 }
 
-.hidden {
-  display: none;
-}
