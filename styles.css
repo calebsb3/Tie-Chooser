@@ -197,6 +197,12 @@ button:disabled {
   min-width: 0;
 }
 
+.history-details strong,
+.history-details span {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .history-thumbnail {
   width: 52px;
   height: 52px;
@@ -254,6 +260,13 @@ button:disabled {
 
   .history-item {
     align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.6rem;
+  }
+
+  .history-thumbnail {
+    width: 46px;
+    height: 46px;
   }
 }
 
