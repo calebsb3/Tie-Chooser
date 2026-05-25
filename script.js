@@ -82,12 +82,42 @@ function persistState() {
   });
 }
 
-function ensureRemainingTieIds() {
-  const tieIds = state.ties.map((tie) => tie.id);
-  state.remainingTieIds = state.remainingTieIds.filter((id) => tieIds.includes(id));
-  if (state.remainingTieIds.length === 0 && tieIds.length > 0) {
-    state.remainingTieIds = [...tieIds];
+function getWornTieIdsInCurrentCycle() {
+  const activeTieIds = new Set(state.ties.map((tie) => tie.id));
+  const tieCount = activeTieIds.size;
+  if (tieCount === 0) {
+    return new Set();
   }
+
+  const wornInCycle = new Set();
+
+  // Walk history in chronological order and clear the cycle after every full rotation.
+  state.history.forEach((entry) => {
+    if (!activeTieIds.has(entry.tieId)) {
+      return;
+    }
+
+    wornInCycle.add(entry.tieId);
+
+    if (wornInCycle.size >= tieCount) {
+      wornInCycle.clear();
+    }
+  });
+
+  return wornInCycle;
+}
+
+function recomputeRemainingTieIds() {
+  const wornInCycle = getWornTieIdsInCurrentCycle();
+  state.remainingTieIds = state.ties.filter((tie) => !wornInCycle.has(tie.id)).map((tie) => tie.id);
+
+  if (state.remainingTieIds.length === 0 && state.ties.length > 0) {
+    state.remainingTieIds = state.ties.map((tie) => tie.id);
+  }
+}
+
+function ensureRemainingTieIds() {
+  recomputeRemainingTieIds();
 }
 
 function formatDate(isoDate) {
@@ -217,7 +247,7 @@ function chooseRecommendation(recommendationCardElement, wearButtonElement) {
     return;
   }
 
-  ensureRemainingTieIds();
+  recomputeRemainingTieIds();
   const randomIndex = Math.floor(Math.random() * state.remainingTieIds.length);
   state.currentRecommendationId = state.remainingTieIds[randomIndex];
   renderRecommendation(recommendationCardElement, wearButtonElement);
@@ -234,10 +264,7 @@ function markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement) 
     wornAt: new Date().toISOString(),
   });
 
-  state.remainingTieIds = state.remainingTieIds.filter((id) => id !== tieId);
-  if (state.remainingTieIds.length === 0 && state.ties.length > 0) {
-    state.remainingTieIds = state.ties.map((tie) => tie.id);
-  }
+  recomputeRemainingTieIds();
 
   state.currentRecommendationId = null;
   persistState();
