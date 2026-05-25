@@ -133,3 +133,7 @@ button:disabled {
   display: block;
 }
 
+.hidden {
+  display: none;
+}
+

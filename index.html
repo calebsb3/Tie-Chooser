@@ -14,17 +14,33 @@
       </header>
 
       <nav class="page-nav" aria-label="Pages">
-        <a class="page-link active" href="./index.html" aria-current="page">Collection</a>
-        <a class="page-link" href="./recommendation.html">Recommendation</a>
-        <a class="page-link" href="./history.html">Wear History</a>
+        <a id="nav-collection" class="page-link" href="./index.html?page=collection">Collection</a>
+        <a id="nav-recommendation" class="page-link" href="./index.html?page=recommendation">Recommendation</a>
+        <a id="nav-history" class="page-link" href="./index.html?page=history">Wear History</a>
       </nav>
 
-      <section class="panel upload-panel">
+      <section id="collection-screen" class="panel upload-panel">
         <h2>Your Collection</h2>
         <label class="file-label" for="tie-upload">Upload tie photos</label>
         <input id="tie-upload" type="file" accept="image/*" multiple />
         <p id="collection-count" class="muted"></p>
         <p class="muted">When you are ready, switch to Recommendation to pick your next tie.</p>
+      </section>
+
+      <section id="recommendation-screen" class="panel hidden">
+        <h2>Recommendation</h2>
+        <div id="recommendation-card" class="recommendation-card empty">
+          <p>Click "Recommend a Tie" to get today's pick.</p>
+        </div>
+        <div class="actions">
+          <button id="recommend-button" type="button">Recommend a Tie</button>
+          <button id="wear-button" type="button" disabled>Wear This Tie</button>
+        </div>
+      </section>
+
+      <section id="history-screen" class="panel hidden">
+        <h2>Wear History</h2>
+        <ul id="history-list" class="history-list"></ul>
       </section>
     </main>
 

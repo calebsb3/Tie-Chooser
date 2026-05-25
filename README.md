@@ -21,6 +21,10 @@ python -m http.server 8000
 
 Then use:
 
-- `index.html` for Collection
-- `recommendation.html` for Recommendation
-- `history.html` for Wear History
+- `index.html?page=collection` for Collection
+- `index.html?page=recommendation` for Recommendation
+- `index.html?page=history` for Wear History
+
+Notes:
+
+- `recommendation.html` and `history.html` redirect to their corresponding `index.html?page=...` views.

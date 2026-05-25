@@ -4,27 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tie Chooser - Wear History</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta http-equiv="refresh" content="0; url=./index.html?page=history" />
   </head>
   <body>
-    <main class="app">
-      <header class="app-header">
-        <h1>Tie Chooser</h1>
-        <p>Track what you wore and when.</p>
-      </header>
-
-      <nav class="page-nav" aria-label="Pages">
-        <a class="page-link" href="./index.html">Collection</a>
-        <a class="page-link" href="./recommendation.html">Recommendation</a>
-        <a class="page-link active" href="./history.html" aria-current="page">Wear History</a>
-      </nav>
-
-      <section class="panel">
-        <h2>Wear History</h2>
-        <ul id="history-list" class="history-list"></ul>
-      </section>
-    </main>
-
-    <script src="./script.js"></script>
+    <script>
+      window.location.replace("./index.html?page=history");
+    </script>
+    <p>Redirecting to Wear History view. <a href="./index.html?page=history">Continue</a></p>
   </body>
 </html>

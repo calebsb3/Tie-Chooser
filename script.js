@@ -1,5 +1,8 @@
 const STORAGE_KEY = "tieChooserStateV1";
 const WINDOW_NAME_KEY = "tieChooserWindowStateV1";
+const PAGE_COLLECTION = "collection";
+const PAGE_RECOMMENDATION = "recommendation";
+const PAGE_HISTORY = "history";
 
 const state = {
   ties: [],
@@ -277,8 +280,68 @@ function initHistoryPage() {
   renderHistory(historyListElement);
 }
 
+function showScreen(activePage) {
+  const collectionScreen = document.getElementById("collection-screen");
+  const recommendationScreen = document.getElementById("recommendation-screen");
+  const historyScreen = document.getElementById("history-screen");
+
+  const screens = [
+    { page: PAGE_COLLECTION, element: collectionScreen },
+    { page: PAGE_RECOMMENDATION, element: recommendationScreen },
+    { page: PAGE_HISTORY, element: historyScreen },
+  ];
+
+  screens.forEach(({ page, element }) => {
+    if (!element) {
+      return;
+    }
+
+    element.classList.toggle("hidden", page !== activePage);
+  });
+}
+
+function updateActiveNav(activePage) {
+  const navCollection = document.getElementById("nav-collection");
+  const navRecommendation = document.getElementById("nav-recommendation");
+  const navHistory = document.getElementById("nav-history");
+
+  const navItems = [
+    { page: PAGE_COLLECTION, element: navCollection },
+    { page: PAGE_RECOMMENDATION, element: navRecommendation },
+    { page: PAGE_HISTORY, element: navHistory },
+  ];
+
+  navItems.forEach(({ page, element }) => {
+    if (!element) {
+      return;
+    }
+
+    const isActive = page === activePage;
+    element.classList.toggle("active", isActive);
+    if (isActive) {
+      element.setAttribute("aria-current", "page");
+    } else {
+      element.removeAttribute("aria-current");
+    }
+  });
+}
+
+function getRequestedPage() {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get("page");
+
+  if ([PAGE_COLLECTION, PAGE_RECOMMENDATION, PAGE_HISTORY].includes(page)) {
+    return page;
+  }
+
+  return PAGE_COLLECTION;
+}
+
 readState();
 ensureRemainingTieIds();
 initCollectionPage();
 initRecommendationPage();
 initHistoryPage();
+const activePage = getRequestedPage();
+showScreen(activePage);
+updateActiveNav(activePage);
