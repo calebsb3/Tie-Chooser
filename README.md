@@ -9,7 +9,7 @@ A lightweight pure JavaScript app to help you rotate through your tie collection
 - Mark the recommended tie as worn with the current date
 - View wear history by tie and date
 - Automatic cycle reset after all ties have been worn once
-- Separate Collection and Recommendation pages for a cleaner flow
+- Separate Collection, Recommendation, and Wear History pages for a cleaner flow
 
 ## Run locally
 
@@ -22,4 +22,5 @@ python -m http.server 8000
 Then use:
 
 - `index.html` for Collection
-- `recommendation.html` for Recommendation and History
+- `recommendation.html` for Recommendation
+- `history.html` for Wear History

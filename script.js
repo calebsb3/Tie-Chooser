@@ -174,7 +174,7 @@ function chooseRecommendation(recommendationCardElement, wearButtonElement) {
   renderRecommendation(recommendationCardElement, wearButtonElement);
 }
 
-function markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement, historyListElement) {
+function markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement) {
   const tieId = state.currentRecommendationId;
   if (!tieId) {
     return;
@@ -193,7 +193,6 @@ function markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement, 
   state.currentRecommendationId = null;
   persistState();
   renderRecommendation(recommendationCardElement, wearButtonElement);
-  renderHistory(historyListElement);
 }
 
 function initCollectionPage() {
@@ -212,18 +211,23 @@ function initRecommendationPage() {
   const recommendationCardElement = document.getElementById("recommendation-card");
   const recommendButton = document.getElementById("recommend-button");
   const wearButtonElement = document.getElementById("wear-button");
-  const historyListElement = document.getElementById("history-list");
 
-  if (!recommendationCardElement || !recommendButton || !wearButtonElement || !historyListElement) {
+  if (!recommendationCardElement || !recommendButton || !wearButtonElement) {
     return;
   }
 
   recommendButton.addEventListener("click", () => chooseRecommendation(recommendationCardElement, wearButtonElement));
-  wearButtonElement.addEventListener("click", () =>
-    markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement, historyListElement)
-  );
+  wearButtonElement.addEventListener("click", () => markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement));
 
   renderRecommendation(recommendationCardElement, wearButtonElement);
+}
+
+function initHistoryPage() {
+  const historyListElement = document.getElementById("history-list");
+  if (!historyListElement) {
+    return;
+  }
+
   renderHistory(historyListElement);
 }
 
@@ -231,3 +235,4 @@ readState();
 ensureRemainingTieIds();
 initCollectionPage();
 initRecommendationPage();
+initHistoryPage();
