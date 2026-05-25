@@ -68,6 +68,46 @@ body {
   color: #5a6377;
 }
 
+.collection-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+}
+
+.collection-item {
+  border: 1px solid #e4e9f5;
+  border-radius: 10px;
+  background: #fbfcff;
+  padding: 0.55rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.collection-empty {
+  grid-column: 1 / -1;
+  color: #5a6377;
+}
+
+.collection-thumbnail {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #d7dfef;
+}
+
+.collection-name {
+  display: block;
+  font-size: 0.9rem;
+  color: #1e2a44;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .actions button {
   border: 1px solid #c5d1ec;
   background: #fff;
@@ -127,6 +167,22 @@ button:disabled {
   border-radius: 10px;
   padding: 0.65rem;
   background: #fbfcff;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.history-details {
+  min-width: 0;
+}
+
+.history-thumbnail {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #d7dfef;
+  flex-shrink: 0;
 }
 
 .history-item strong {

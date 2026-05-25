@@ -137,6 +137,40 @@ function renderCollectionCount(collectionCountElement) {
   collectionCountElement.textContent = `${state.ties.length} tie${state.ties.length === 1 ? "" : "s"} in your collection`;
 }
 
+function renderCollectionList(collectionListElement) {
+  if (!collectionListElement) {
+    return;
+  }
+
+  collectionListElement.innerHTML = "";
+
+  if (state.ties.length === 0) {
+    const emptyItem = document.createElement("li");
+    emptyItem.className = "collection-item collection-empty";
+    emptyItem.textContent = "Uploaded ties will appear here.";
+    collectionListElement.appendChild(emptyItem);
+    return;
+  }
+
+  state.ties.forEach((tie) => {
+    const item = document.createElement("li");
+    item.className = "collection-item";
+
+    const image = document.createElement("img");
+    image.className = "collection-thumbnail";
+    image.src = tie.imageData;
+    image.alt = tie.name;
+
+    const name = document.createElement("span");
+    name.className = "collection-name";
+    name.textContent = tie.name;
+
+    item.appendChild(image);
+    item.appendChild(name);
+    collectionListElement.appendChild(item);
+  });
+}
+
 function renderRecommendation(recommendationCardElement, wearButtonElement) {
   if (!recommendationCardElement || !wearButtonElement) {
     return;
@@ -198,14 +232,26 @@ function renderHistory(historyListElement) {
       const item = document.createElement("li");
       item.className = "history-item";
 
+      if (tie?.imageData) {
+        const thumbnail = document.createElement("img");
+        thumbnail.className = "history-thumbnail";
+        thumbnail.src = tie.imageData;
+        thumbnail.alt = tieName;
+        item.appendChild(thumbnail);
+      }
+
+      const details = document.createElement("div");
+      details.className = "history-details";
+
       const nameElement = document.createElement("strong");
       nameElement.textContent = tieName;
 
       const dateElement = document.createElement("span");
       dateElement.textContent = formatDate(entry.wornAt);
 
-      item.appendChild(nameElement);
-      item.appendChild(dateElement);
+      details.appendChild(nameElement);
+      details.appendChild(dateElement);
+      item.appendChild(details);
       historyListElement.appendChild(item);
     });
 }
@@ -219,7 +265,7 @@ function readFileAsDataUrl(file) {
   });
 }
 
-async function handleUpload(event, collectionCountElement) {
+async function handleUpload(event, collectionCountElement, collectionListElement) {
   const files = Array.from(event.target.files || []);
   if (files.length === 0) {
     return;
@@ -237,6 +283,7 @@ async function handleUpload(event, collectionCountElement) {
   ensureRemainingTieIds();
   persistState();
   renderCollectionCount(collectionCountElement);
+  renderCollectionList(collectionListElement);
   event.target.value = "";
 }
 
@@ -274,13 +321,15 @@ function markRecommendedTieAsWorn(recommendationCardElement, wearButtonElement) 
 function initCollectionPage() {
   const tieUploadInput = document.getElementById("tie-upload");
   const collectionCountElement = document.getElementById("collection-count");
+  const collectionListElement = document.getElementById("collection-list");
 
-  if (!tieUploadInput || !collectionCountElement) {
+  if (!tieUploadInput || !collectionCountElement || !collectionListElement) {
     return;
   }
 
-  tieUploadInput.addEventListener("change", (event) => handleUpload(event, collectionCountElement));
+  tieUploadInput.addEventListener("change", (event) => handleUpload(event, collectionCountElement, collectionListElement));
   renderCollectionCount(collectionCountElement);
+  renderCollectionList(collectionListElement);
 }
 
 function initRecommendationPage() {
