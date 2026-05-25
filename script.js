@@ -1,4 +1,5 @@
 const STORAGE_KEY = "tieChooserStateV1";
+const WINDOW_NAME_KEY = "tieChooserWindowStateV1";
 
 const state = {
   ties: [],
@@ -7,15 +8,63 @@ const state = {
   currentRecommendationId: null,
 };
 
+function readFromWindowName() {
+  try {
+    const parsed = JSON.parse(window.name || "{}");
+    return parsed[WINDOW_NAME_KEY] || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function writeToWindowName(data) {
+  try {
+    const parsed = JSON.parse(window.name || "{}");
+    parsed[WINDOW_NAME_KEY] = data;
+    window.name = JSON.stringify(parsed);
+  } catch (error) {
+    window.name = JSON.stringify({ [WINDOW_NAME_KEY]: data });
+  }
+}
+
+function loadPersistedState() {
+  let localStorageState = null;
+  try {
+    localStorageState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    localStorageState = null;
+  }
+
+  // When pages are opened directly via file://, browser storage can be isolated per file.
+  // window.name survives same-tab navigation, so use it as a fallback bridge.
+  if (window.location.protocol === "file:") {
+    return localStorageState || readFromWindowName();
+  }
+
+  return localStorageState;
+}
+
+function savePersistedState(payload) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Failed to persist tie state to localStorage", error);
+  }
+
+  if (window.location.protocol === "file:") {
+    writeToWindowName(payload);
+  }
+}
+
 function readState() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!parsed || !Array.isArray(parsed.ties) || !Array.isArray(parsed.history)) {
+    const parsed = loadPersistedState();
+    if (!parsed || !Array.isArray(parsed.ties)) {
       return;
     }
 
     state.ties = parsed.ties;
-    state.history = parsed.history;
+    state.history = Array.isArray(parsed.history) ? parsed.history : [];
     state.remainingTieIds = Array.isArray(parsed.remainingTieIds) ? parsed.remainingTieIds : [];
   } catch (error) {
     console.error("Failed to load saved tie state", error);
@@ -23,14 +72,11 @@ function readState() {
 }
 
 function persistState() {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      ties: state.ties,
-      remainingTieIds: state.remainingTieIds,
-      history: state.history,
-    })
-  );
+  savePersistedState({
+    ties: state.ties,
+    remainingTieIds: state.remainingTieIds,
+    history: state.history,
+  });
 }
 
 function ensureRemainingTieIds() {
